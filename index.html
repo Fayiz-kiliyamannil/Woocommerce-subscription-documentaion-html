@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aco Subscriptions Pro – Documentation</title>
+<meta name="description" content="Documentation for Aco Subscription and Recurring Payments Pro for WooCommerce: setup, features, use cases, screenshots and a Free vs Pro comparison.">
+<style>
+:root {
+	--bg: #f6f8fb;
+	--panel: #ffffff;
+	--text: #1d2433;
+	--muted: #5b6577;
+	--line: #e3e8ef;
+	--brand: #2563eb;
+	--brand-soft: #eaf1ff;
+	--accent: #7c3aed;
+	--ok: #15803d;
+	--ok-soft: #e8f7ee;
+	--no: #9aa3b2;
+	--warn-soft: #fff7e6;
+	--warn-line: #f5c46b;
+	--code: #f1f4f9;
+	--shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .08);
+}
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		--bg: #0f141c; --panel: #161d28; --text: #e6eaf1; --muted: #9aa5b8; --line: #263043;
+		--brand: #6ea0ff; --brand-soft: #1b2a45; --accent: #a78bfa; --ok: #4ade80; --ok-soft: #14301f;
+		--no: #5d6678; --warn-soft: #2d2412; --warn-line: #8a6a26; --code: #1e2633;
+		--shadow: 0 1px 2px rgba(0, 0, 0, .4);
+	}
+}
+:root[data-theme="dark"] {
+	--bg: #0f141c; --panel: #161d28; --text: #e6eaf1; --muted: #9aa5b8; --line: #263043;
+	--brand: #6ea0ff; --brand-soft: #1b2a45; --accent: #a78bfa; --ok: #4ade80; --ok-soft: #14301f;
+	--no: #5d6678; --warn-soft: #2d2412; --warn-line: #8a6a26; --code: #1e2633;
+	--shadow: 0 1px 2px rgba(0, 0, 0, .4);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+a { color: var(--brand); }
+code, kbd { background: var(--code); border-radius: 4px; padding: 1px 6px; font-size: .9em; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+.layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); max-width: 1320px; margin: 0 auto; }
+nav.toc { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 28px 18px 40px 24px; border-right: 1px solid var(--line); font-size: 14px; }
+nav.toc .brand { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+nav.toc .ver { color: var(--muted); font-size: 12px; margin-bottom: 18px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; }
+nav.toc li a { display: block; padding: 5px 10px; border-radius: 6px; color: var(--text); text-decoration: none; }
+nav.toc li a:hover { background: var(--brand-soft); color: var(--brand); }
+nav.toc .group { text-transform: uppercase; letter-spacing: .06em; font-size: 11px; color: var(--muted); margin: 16px 10px 6px; }
+main { padding: 32px 48px 80px; min-width: 0; }
+.hero { background: linear-gradient(135deg, #1e3a8a, #2563eb 55%, #7c3aed); color: #fff; border-radius: 16px; padding: 40px 40px 36px; margin-bottom: 36px; }
+.hero h1 { margin: 0 0 10px; font-size: 32px; line-height: 1.25; }
+.hero p { margin: 0 0 18px; max-width: 760px; opacity: .93; font-size: 17px; }
+.hero .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.hero .chips span { background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .28); padding: 4px 12px; border-radius: 999px; font-size: 13px; }
+section.doc { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 30px 34px; margin-bottom: 26px; box-shadow: var(--shadow); }
+section.doc > h2 { margin: 0 0 6px; font-size: 24px; line-height: 1.3; }
+section.doc > .lead { color: var(--muted); margin: 0 0 18px; }
+h3 { font-size: 18px; margin: 26px 0 8px; }
+.badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; vertical-align: middle; margin-left: 8px; }
+.badge.pro { background: var(--accent); color: #fff; }
+.badge.free { background: var(--ok-soft); color: var(--ok); }
+.usecase { background: var(--brand-soft); border-left: 4px solid var(--brand); border-radius: 8px; padding: 12px 16px; margin: 14px 0; }
+.usecase strong:first-child { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--brand); margin-bottom: 2px; }
+.note { background: var(--warn-soft); border: 1px solid var(--warn-line); border-radius: 8px; padding: 10px 14px; margin: 14px 0; font-size: 15px; }
+ol.steps { counter-reset: step; list-style: none; padding: 0; margin: 10px 0 16px; }
+ol.steps > li { counter-increment: step; position: relative; padding: 2px 0 8px 40px; }
+ol.steps > li::before { content: counter(step); position: absolute; left: 0; top: 2px; width: 26px; height: 26px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 13px; font-weight: 700; display: grid; place-items: center; }
+figure { margin: 18px 0 24px; }
+figure a { display: block; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; }
+figure img { display: block; width: 100%; height: auto; }
+figure img.narrow { max-width: 720px; margin: 0 auto; }
+figure.tall a { max-height: 720px; overflow: hidden; position: relative; }
+figure.tall a::after { content: "Click to view full size"; position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 0 12px; text-align: center; font-size: 13px; font-weight: 600; color: #1d2433; background: linear-gradient(transparent, rgba(255, 255, 255, .95)); }
+figcaption { color: var(--muted); font-size: 14px; margin-top: 8px; text-align: center; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.compare td:nth-child(2), .compare td:nth-child(3), .compare th:nth-child(2), .compare th:nth-child(3) { text-align: center; width: 110px; }
+.compare tr.cat td { background: var(--bg); font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.yes { color: var(--ok); font-weight: 700; }
+.nope { color: var(--no); }
+.compare small { display: block; color: var(--muted); font-size: 13px; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+details { border: 1px solid var(--line); border-radius: 10px; margin: 10px 0; background: var(--panel); }
+details summary { cursor: pointer; padding: 12px 16px; font-weight: 600; }
+details > div { padding: 0 16px 14px; color: var(--text); }
+.theme-toggle { position: fixed; right: 18px; bottom: 18px; border: 1px solid var(--line); background: var(--panel); color: var(--text); border-radius: 999px; padding: 8px 14px; font-size: 13px; cursor: pointer; box-shadow: var(--shadow); }
+footer { color: var(--muted); font-size: 13px; text-align: center; margin-top: 30px; }
+@media (max-width: 980px) {
+	.layout { grid-template-columns: 1fr; }
+	nav.toc { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); padding: 20px 16px; }
+	nav.toc ol { columns: 2; }
+	main { padding: 20px 16px 60px; }
+	section.doc { padding: 22px 18px; }
+	.hero { padding: 28px 22px; }
+	.hero h1 { font-size: 25px; }
+	.grid2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) { nav.toc ol { columns: 1; } }
+@media print {
+	nav.toc, .theme-toggle { display: none; }
+	.layout { display: block; }
+	section.doc { break-inside: avoid-page; box-shadow: none; }
+	figure.tall a { max-height: none; }
+	figure.tall a::after { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc" aria-label="Contents">
+	<div class="brand">Aco Subscriptions Pro</div>
+	<div class="ver">Documentation · v1.0.0</div>
+	<ol>
+		<li class="group">Start here</li>
+		<li><a href="#overview">Overview</a></li>
+		<li><a href="#free-vs-pro">Free vs Pro</a></li>
+		<li><a href="#getting-started">Getting started</a></li>
+		<li><a href="#dashboard">Subscriptions dashboard</a></li>
+		<li class="group">Products</li>
+		<li><a href="#products">Simple subscriptions</a></li>
+		<li><a href="#variable">Variable subscriptions</a></li>
+		<li><a href="#shipping-schedule">Shipping schedule</a></li>
+		<li><a href="#price-change">Price change for subscribers</a></li>
+		<li class="group">Payments</li>
+		<li><a href="#payments">Gateways &amp; renewals</a></li>
+		<li><a href="#smart-retries">Failed payments &amp; smart retries</a></li>
+		<li><a href="#card-expiry">Card expiry &amp; update card</a></li>
+		<li class="group">Customers</li>
+		<li><a href="#self-service">Customer self-service</a></li>
+		<li><a href="#switching">Plan switching</a></li>
+		<li><a href="#coupons">Subscription coupons</a></li>
+		<li><a href="#trial-limit">Free trial limit</a></li>
+		<li><a href="#cancellations">Cancellation survey &amp; retention</a></li>
+		<li class="group">Communication &amp; data</li>
+		<li><a href="#emails">Emails &amp; reminders</a></li>
+		<li><a href="#reports">Reports &amp; exports</a></li>
+		<li><a href="#integrations">Mailchimp &amp; Klaviyo</a></li>
+		<li><a href="#import-export">Import, export &amp; webhooks</a></li>
+		<li class="group">Support</li>
+		<li><a href="#help-tab">Help tab</a></li>
+		<li><a href="#faq">FAQ</a></li>
+		<li><a href="#troubleshooting">Troubleshooting</a></li>
+	</ol>
+</nav>
+
+<main>
+
+<header class="hero" id="overview">
+	<h1>Aco Subscription and Recurring Payments Pro for WooCommerce</h1>
+	<p>Sell subscription products in WooCommerce and collect recurring payments automatically with Stripe and PayPal, or with manual payment links. Pro adds variable plans, plan switching, subscription coupons, customer self-service, smart payment retries, card expiry reminders, cancellation surveys, reports and email marketing sync.</p>
+	<div class="chips">
+		<span>WordPress 6.5+</span><span>WooCommerce 9.0+</span><span>PHP 7.4+</span><span>HPOS compatible</span><span>Stripe &amp; PayPal</span>
+	</div>
+</header>
+
+<!-- ============================================================ -->
+<section class="doc" id="free-vs-pro">
+	<h2>Free vs Pro</h2>
+	<p class="lead">Everything in the free plugin is included in Pro. Pro adds the features below, built for stores that want to grow subscription revenue and keep subscribers longer.</p>
+
+	<div class="table-wrap">
+	<table class="compare">
+		<thead><tr><th>Feature</th><th>Free</th><th>Pro</th></tr></thead>
+		<tbody>
+			<tr class="cat"><td colspan="3">Products</td></tr>
+			<tr><td>Simple subscription products<small>Price, billing interval &amp; period, length, sign-up fee</small></td><td class="yes">✓</td><td class="yes">✓</td></tr>
+			<tr><td>Free trials</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+			<tr><td>Billing synchronisation with prorated first payment</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+			<tr><td>Manual-renewal-only products, one subscription per customer limit</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Variable subscription products</strong><small>Each variation with its own price, schedule, length, sign-up fee and trial</small></td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Separate shipping schedule</strong><small>e.g. billed yearly, shipped monthly</small></td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Bulk price change for existing subscribers</strong><small>With effective date and customer email</small></td><td class="nope">—</td><td class="yes">✓</td></tr>
+
+			<tr class="cat"><td colspan="3">Payments</td></tr>
+			<tr><td>Automatic renewals with Stripe and PayPal</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+			<tr><td>Manual renewals with invoice email (bank transfer, cheque…)</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+			<tr><td>Automatic failed-payment retries (fixed schedule)</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Smart retries</strong><small>Retry by Stripe decline reason; skip hopeless cards</small></td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Card expiry reminders &amp; Update Card page</strong></td><td class="nope">—</td><td class="yes">✓</td></tr>
+
+			<tr class="cat"><td colspan="3">Customers (My Account)</td></tr>
+			<tr><td>View subscriptions, cancel, suspend &amp; resume, renew manual subscriptions</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Plan switching</strong> (upgrade / downgrade with proration)</td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Renew early</strong></td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Resubscribe</strong> to cancelled or expired subscriptions</td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Auto-renew on / off toggle</strong></td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Pause limit</strong> per subscription</td><td class="nope">—</td><td class="yes">✓</td></tr>
+
+			<tr class="cat"><td colspan="3">Marketing &amp; retention</td></tr>
+			<tr><td><strong>Subscription coupons</strong><small>Recurring % / fixed for N payments, sign-up fee discounts</small></td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td><strong>One free trial per customer</strong> (per product or per store)</td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Cancellation survey</strong></td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Retention offer</strong> before cancelling</td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Mailchimp &amp; Klaviyo sync</strong></td><td class="nope">—</td><td class="yes">✓</td></tr>
+
+			<tr class="cat"><td colspan="3">Admin, emails &amp; data</td></tr>
+			<tr><td>Subscriptions dashboard with status cards, search, filters and bulk actions</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+			<tr><td>26 customer &amp; admin subscription emails, reminder emails</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Card Expiring</strong> and <strong>Price Changed</strong> emails</td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td>Import / export &amp; migration (WooCommerce Subscriptions, YITH, SUMO, CSV)</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+			<tr><td>Outgoing webhooks for subscription events</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+			<tr><td><strong>Cancellations report</strong></td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td><strong>CSV report exports</strong> (payments, monthly summary, cancellations)</td><td class="nope">—</td><td class="yes">✓</td></tr>
+			<tr><td><strong>In-plugin Help tab</strong> (documentation, FAQs, video tutorials)</td><td class="nope">—</td><td class="yes">✓</td></tr>
+		</tbody>
+	</table>
+	</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="getting-started">
+	<h2>Getting started</h2>
+	<p class="lead">From installation to your first subscription order in a few minutes.</p>
+	<ol class="steps">
+		<li>Install and activate <strong>WooCommerce</strong>. For automatic renewals, also install <strong>WooCommerce Stripe Gateway</strong> and/or <strong>WooCommerce PayPal Payments</strong> and connect your account.</li>
+		<li>Upload and activate <strong>Aco Subscription and Recurring Payments Pro</strong> from <em>Plugins → Add New → Upload Plugin</em>. A <strong>Subscriptions</strong> menu appears in the admin.</li>
+		<li>Go to <em>Subscriptions → Settings → General</em> and make sure <strong>Enable Subscriptions</strong> is on.</li>
+		<li>Go to <em>Subscriptions → Settings → Payment</em> and enable the gateways you use. Turn on <strong>Accept Manual Payment</strong> if you also want bank transfer or cheque.</li>
+		<li>Create a subscription product (see <a href="#products">Simple subscriptions</a>).</li>
+		<li>Place a test order. The subscription appears under <em>Subscriptions</em> and in the customer's <em>My Account → Subscriptions</em>.</li>
+	</ol>
+	<div class="note"><strong>Tip:</strong> renewals run in the background through WooCommerce's Action Scheduler. On low-traffic sites, set up a real server cron job so renewals run on time.</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="dashboard">
+	<h2>Subscriptions dashboard <span class="badge free">Free + Pro</span></h2>
+	<p class="lead">All subscriptions in one place: <em>Subscriptions → Subscriptions</em>.</p>
+	<ul>
+		<li><strong>Status cards</strong>: total, active, trial, pending, on hold, cancelled and expired at a glance.</li>
+		<li><strong>Search and filters</strong> by status, payment method and billing period.</li>
+		<li>Each row shows the customer, products, status, paid amount, next payment and trial end, plus the related renewal orders.</li>
+		<li><strong>Bulk actions</strong> and <strong>Import / Export</strong>.</li>
+	</ul>
+	<p>The top tabs are <strong>Subscriptions</strong>, <strong>Settings</strong>, <strong>Cancellations</strong>, <strong>Exports</strong> and <strong>Help</strong>.</p>
+	<figure><a href="screenshots/admin-subscriptions.png" target="_blank"><img src="screenshots/admin-subscriptions.png" alt="Subscriptions dashboard with status cards, filters and subscription table" loading="lazy"></a><figcaption>Subscriptions dashboard</figcaption></figure>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="products">
+	<h2>Simple subscription products <span class="badge free">Free + Pro</span></h2>
+	<p class="lead">Go to <em>Products → Add New</em> and choose the product type <strong>Simple Subscription</strong>.</p>
+	<table>
+		<thead><tr><th>Field</th><th>What it does</th></tr></thead>
+		<tbody>
+			<tr><td>Subscription Price, Billing Interval, Billing Period</td><td>The recurring amount and how often it is charged, e.g. <code>20</code> every <code>1</code> <code>Month</code>.</td></tr>
+			<tr><td>Length Type</td><td><em>Never Expires</em>, or <em>Limited Length</em> for a fixed number of billing cycles (e.g. a 12-month course).</td></tr>
+			<tr><td>Sign-up Fee</td><td>A one-time fee charged at checkout only.</td></tr>
+			<tr><td>Enable Free Trial</td><td>Trial length and period. The first payment is taken when the trial ends.</td></tr>
+			<tr><td>Require Manual Renewal</td><td>Renewals are always paid from an invoice email, never charged automatically.</td></tr>
+			<tr><td>Enable Billing Synchronization</td><td>Bill every subscriber on the same day (e.g. the 1st of the month). The first payment is prorated.</td></tr>
+			<tr><td>Limit Subscriptions</td><td>One active subscription per customer for this product.</td></tr>
+			<tr><td>Shipping Schedule <span class="badge pro">Pro</span></td><td>Ship more often than you bill. See <a href="#shipping-schedule">Shipping schedule</a>.</td></tr>
+		</tbody>
+	</table>
+	<div class="usecase"><strong>Use case</strong>A streaming service sells a monthly plan at $9.99 with a 7-day free trial and a $5 sign-up fee. Customers enter their card at checkout, pay $5 today, and are charged $9.99 automatically when the trial ends and every month after.</div>
+	<figure><a href="screenshots/product-general.png" target="_blank"><img class="narrow" src="screenshots/product-general.png" alt="Subscription tab on the product edit screen" loading="lazy"></a><figcaption>The Subscription tab on a Simple Subscription product</figcaption></figure>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="variable">
+	<h2>Variable subscription products <span class="badge pro">Pro</span></h2>
+	<p class="lead">Offer several plans in one product: sizes, tiers or billing frequencies.</p>
+	<ol class="steps">
+		<li>Choose the product type <strong>Variable Subscription</strong>.</li>
+		<li>Fill in the <strong>Subscription</strong> tab. These are the defaults for every variation.</li>
+		<li>Add attributes (e.g. <em>Plan: Basic, Plus, Premium</em>) and create variations as usual.</li>
+		<li>In each variation, set the price and, if needed, its own <strong>Bill every</strong>, <strong>Billing period</strong>, <strong>Length</strong>, <strong>Sign-up fee</strong> and <strong>Free trial</strong>. Empty fields use the parent's values ("Same as parent").</li>
+	</ol>
+	<div class="usecase"><strong>Use case</strong>A coffee club sells one product, "Coffee Subscription", with variations <em>250 g – $15/month</em>, <em>500 g – $27/month</em> and <em>1 kg – $49/month</em>. Customers can later move between them with <a href="#switching">plan switching</a>.</div>
+	<div class="grid2">
+		<figure><a href="screenshots/product-variations.png" target="_blank"><img src="screenshots/product-variations.png" alt="Subscription fields inside a variation" loading="lazy"></a><figcaption>Per-variation subscription fields</figcaption></figure>
+		<figure><a href="screenshots/shop-product.png" target="_blank"><img src="screenshots/shop-product.png" alt="Variable subscription product on the shop page" loading="lazy"></a><figcaption>What the customer sees: a price range per month</figcaption></figure>
+	</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="shipping-schedule">
+	<h2>Separate shipping schedule <span class="badge pro">Pro</span></h2>
+	<p class="lead">Bill on one schedule and ship on another.</p>
+	<p>On the product's Subscription tab, set <strong>Ship Every</strong> and <strong>Shipping Period</strong>. Leave <em>Ship Every</em> empty to ship with each payment, as usual.</p>
+	<p>Between payments, the plugin creates <strong>$0 shipment orders</strong> on the shipping schedule. They appear in WooCommerce → Orders like any other order, so your fulfilment process doesn't change.</p>
+	<div class="usecase"><strong>Use case</strong>A magazine is sold as a yearly subscription for $120, paid once a year, but an issue ships every month. Set Billing Period to <em>Year</em> and Ship Every to <em>1 Month</em>. You get 11 extra $0 shipment orders between yearly payments.</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="price-change">
+	<h2>Price change for existing subscribers <span class="badge pro">Pro</span></h2>
+	<p class="lead">Normally a new product price applies only to new subscribers. This tool moves existing subscribers to the new price.</p>
+	<ol class="steps">
+		<li>Change the product price and click <strong>Update</strong>.</li>
+		<li>The <strong>Existing Subscribers: Price</strong> box on the product edit screen shows how many subscribers pay a different price.</li>
+		<li>Choose <strong>From each subscriber's next renewal</strong> or <strong>From renewals on or after</strong> a date.</li>
+		<li>Keep <strong>Email customers about the change</strong> on to send the <em>Subscription Price Changed</em> email.</li>
+		<li>Click <strong>Update N subscribers</strong>. Each subscription switches to the new price on its effective date.</li>
+	</ol>
+	<div class="usecase"><strong>Use case</strong>Your costs went up and the monthly box goes from $30 to $35 on 1 March. Choose "From renewals on or after 1 March", keep the email on, and every subscriber is notified and billed $35 from that date.</div>
+	<div class="note">Cancelled and expired subscriptions are not changed. Subscriptions billed by PayPal itself keep their PayPal plan price.</div>
+	<figure><a href="screenshots/product-price-change.png" target="_blank"><img class="narrow" src="screenshots/product-price-change.png" alt="Existing Subscribers price box" loading="lazy"></a><figcaption>The Existing Subscribers: Price box</figcaption></figure>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="payments">
+	<h2>Payment gateways &amp; renewals <span class="badge free">Free + Pro</span></h2>
+	<p class="lead"><em>Subscriptions → Settings → Payment</em></p>
+	<ul>
+		<li><strong>Stripe</strong> and <strong>PayPal</strong>: the card or PayPal account is saved at checkout and charged automatically on each renewal date.</li>
+		<li><strong>Manual payments</strong> (bank transfer, cheque): on the due date a renewal order is created and the customer receives an invoice email with a payment link. Cash on delivery is hidden for subscription products.</li>
+		<li>Renewals run in the background with WooCommerce's Action Scheduler (<em>Tools → Scheduled Actions</em>, hook names start with <code>acosuanr_</code>).</li>
+	</ul>
+	<figure><a href="screenshots/settings-payment.png" target="_blank"><img src="screenshots/settings-payment.png" alt="Payment settings with PayPal and Stripe cards" loading="lazy"></a><figcaption>Payment settings</figcaption></figure>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="smart-retries">
+	<h2>Failed payments &amp; smart retries</h2>
+	<p class="lead">Recover revenue from declined renewals automatically.</p>
+	<h3>Automatic retries <span class="badge free">Free + Pro</span></h3>
+	<p>Turn on <strong>Automatic Failed Payment Retry</strong>, then choose the <strong>Maximum Retry Attempts</strong>, the wait before each attempt and the <strong>Failure Action</strong> (put the subscription on hold, or cancel it) when every retry fails. The customer gets an email with a link to pay with another card.</p>
+	<h3>Smart retries <span class="badge pro">Pro</span></h3>
+	<p>Turn on <strong>Smart Retries</strong> to decide by the reason Stripe gives for the decline:</p>
+	<ul>
+		<li><strong>Stolen, lost, fraudulent, expired or blocked cards</strong> are not retried, because retrying can't succeed. The customer is asked to pay with another card straight away.</li>
+		<li><strong>Insufficient funds</strong> uses its own schedule (<strong>Insufficient Funds Retry Days</strong>, default after 1, 3 and 5 days), timed for when money is more likely to be there.</li>
+		<li>Other declines use the normal retry schedule.</li>
+	</ul>
+	<div class="usecase"><strong>Use case</strong>A renewal fails with "insufficient funds" on the 28th. Instead of failing for good, the plugin retries on the 29th, 31st and 2nd. Payday falls in that window, so the payment goes through and the subscriber stays.</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="card-expiry">
+	<h2>Card expiry reminders &amp; Update Card <span class="badge pro">Pro</span></h2>
+	<p class="lead">Prevent failed renewals before they happen.</p>
+	<ul>
+		<li>When a saved Stripe card will expire before the next charge, the customer gets a <strong>Card Expiring Reminder</strong> email. Set the timing in <em>Settings → Notifications → Card Expiry Reminder</em> (default 14 days). It is sent once per card.</li>
+		<li>The email links to the <strong>Update Card</strong> page in My Account, where the customer adds a new card or chooses which saved card pays future renewals.</li>
+	</ul>
+	<div class="usecase"><strong>Use case</strong>A subscriber's card expires at the end of June and the next renewal is 5 July. On 21 June they get an email, update their card in two clicks, and the July renewal succeeds.</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="self-service">
+	<h2>Customer self-service (My Account)</h2>
+	<p class="lead">Customers manage their own subscriptions in <em>My Account → Subscriptions</em>, which means fewer support emails for you. Switch each option on under <em>Settings → General</em>.</p>
+	<table>
+		<thead><tr><th>Action</th><th>Setting</th><th></th></tr></thead>
+		<tbody>
+			<tr><td>View subscriptions, payments and dates; add notes</td><td>Always on</td><td><span class="badge free">Free</span></td></tr>
+			<tr><td>Cancel</td><td>Customer Cancellation</td><td><span class="badge free">Free</span></td></tr>
+			<tr><td>Suspend &amp; resume</td><td>Always on</td><td><span class="badge free">Free</span></td></tr>
+			<tr><td>Limit how often a subscription can be paused</td><td>Maximum Pauses per Subscription (0 = no limit)</td><td><span class="badge pro">Pro</span></td></tr>
+			<tr><td>Switch Plan</td><td>Allow Plan Switching</td><td><span class="badge pro">Pro</span></td></tr>
+			<tr><td>Renew Early: pay the next renewal now; the next payment date moves one period later</td><td>Allow Early Renewal</td><td><span class="badge pro">Pro</span></td></tr>
+			<tr><td>Resubscribe to a cancelled or expired subscription (no new trial or sign-up fee)</td><td>Allow Resubscribe</td><td><span class="badge pro">Pro</span></td></tr>
+			<tr><td>Turn auto-renew off (renewals arrive as invoices) and back on</td><td>Allow Customers to Turn Auto-Renew On or Off</td><td><span class="badge pro">Pro</span></td></tr>
+			<tr><td>Update Card (Stripe)</td><td>Always on for Stripe subscriptions</td><td><span class="badge pro">Pro</span></td></tr>
+		</tbody>
+	</table>
+	<div class="grid2">
+		<figure class="tall"><a href="screenshots/myaccount-list.png" target="_blank"><img src="screenshots/myaccount-list.png" alt="My Subscriptions list in My Account" loading="lazy"></a><figcaption>My Account → Subscriptions</figcaption></figure>
+		<figure class="tall"><a href="screenshots/myaccount-detail.png" target="_blank"><img src="screenshots/myaccount-detail.png" alt="Subscription detail page with actions" loading="lazy"></a><figcaption>Subscription detail with actions, dates and payment history</figcaption></figure>
+	</div>
+	<figure class="tall"><a href="screenshots/settings-general.png" target="_blank"><img src="screenshots/settings-general.png" alt="General settings" loading="lazy"></a><figcaption>Settings → General: all customer options in one place</figcaption></figure>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="switching">
+	<h2>Plan switching <span class="badge pro">Pro</span></h2>
+	<p class="lead">Let customers upgrade or downgrade between variations of a variable subscription.</p>
+	<ol class="steps">
+		<li>Turn on <strong>Allow Plan Switching</strong> in <em>Settings → General</em>.</li>
+		<li>Choose the <strong>Plan Switch Payment</strong> rule: <em>prorate</em> (upgrades pay the difference for the rest of the current period now) or <em>no charge now</em> (the new price applies from the next payment).</li>
+		<li>Customers click <strong>Switch Plan</strong> on their subscription, choose a plan and confirm. Downgrades always start at the next payment.</li>
+	</ol>
+	<div class="usecase"><strong>Use case</strong>Halfway through the month, a customer on the $27 plan upgrades to the $49 plan. They pay about $11 now (half of the $22 difference), and are billed $49 from the next renewal.</div>
+	<figure><a href="screenshots/myaccount-switch.png" target="_blank"><img class="narrow" src="screenshots/myaccount-switch.png" alt="Switch plan page" loading="lazy"></a><figcaption>Switch plan page: each option explains what the customer pays and when</figcaption></figure>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="coupons">
+	<h2>Subscription coupons <span class="badge pro">Pro</span></h2>
+	<p class="lead">Normal WooCommerce coupons only discount the first order. Subscription coupons can also discount renewals.</p>
+	<p>In <em>Marketing → Coupons → Add coupon</em>, choose a discount type:</p>
+	<table>
+		<thead><tr><th>Discount type</th><th>What it discounts</th></tr></thead>
+		<tbody>
+			<tr><td>Recurring subscription % discount</td><td>The first payment and renewals, by a percentage.</td></tr>
+			<tr><td>Recurring subscription fixed discount</td><td>The first payment and renewals, by a fixed amount.</td></tr>
+			<tr><td>Sign-up fee % discount</td><td>The one-time sign-up fee, by a percentage.</td></tr>
+			<tr><td>Sign-up fee fixed discount</td><td>The one-time sign-up fee, by a fixed amount.</td></tr>
+		</tbody>
+	</table>
+	<p><strong>Active for payments</strong> limits a recurring discount to the first <em>N</em> payments. Leave it empty to discount every payment.</p>
+	<div class="usecase"><strong>Use case</strong>A launch promotion "NEWSUB20" gives <strong>20% off the first 3 months</strong>: type <em>Recurring subscription % discount</em>, amount <code>20</code>, Active for payments <code>3</code>. From the fourth payment the customer pays the full price.</div>
+	<figure><a href="screenshots/coupon.png" target="_blank"><img class="narrow" src="screenshots/coupon.png" alt="Coupon data with recurring discount type" loading="lazy"></a><figcaption>A recurring coupon limited to 3 payments</figcaption></figure>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="trial-limit">
+	<h2>Free trial limit <span class="badge pro">Pro</span></h2>
+	<p class="lead">Stop customers from taking the free trial again and again.</p>
+	<p>In <em>Settings → General → Free Trial Limit</em>, choose:</p>
+	<ul>
+		<li><strong>No limit</strong>: the default behaviour.</li>
+		<li><strong>One free trial per product for each customer.</strong></li>
+		<li><strong>One free trial in the store for each customer.</strong></li>
+	</ul>
+	<p>A customer who already had a trial can still subscribe. They just pay the first period at checkout instead of starting a new trial. Customers are recognised by account and billing email.</p>
+	<div class="usecase"><strong>Use case</strong>Someone cancels at the end of a 14-day trial and signs up again a week later to get another free 14 days. With the limit on, the second signup is charged right away.</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="cancellations">
+	<h2>Cancellation survey, retention offer &amp; report <span class="badge pro">Pro</span></h2>
+	<p class="lead">Learn why customers leave, and give them a reason to stay.</p>
+	<h3>Cancellation survey</h3>
+	<p>Turn on <strong>Cancellation Survey</strong> in <em>Settings → General</em>. When a customer clicks Cancel, they first choose a reason. Edit the list in <strong>Cancellation Reasons</strong>, one per line. "Other" with a text box is always added.</p>
+	<h3>Retention offer</h3>
+	<p>Create a recurring subscription coupon (e.g. 20% off the next 2 payments), turn on <strong>Retention Offer</strong> and enter the coupon code in <strong>Retention Coupon Code</strong>. Before cancelling, the customer is offered the discount. If they accept, the coupon is applied to their next renewals and the subscription stays active.</p>
+	<div class="usecase"><strong>Use case</strong>A customer about to cancel picks "It is too expensive" and sees: <em>"Stay and get 20% off your next 2 payments."</em> They accept. The Cancellations report counts them as "Saved by the offer".</div>
+	<figure><a href="screenshots/myaccount-cancel.png" target="_blank"><img class="narrow" src="screenshots/myaccount-cancel.png" alt="Cancellation page with survey and retention offer" loading="lazy"></a><figcaption>Cancel page: survey reasons and the retention offer</figcaption></figure>
+	<h3>Cancellations report</h3>
+	<p>The <strong>Cancellations</strong> tab shows, for any period: the number of cancellations, how many answered the survey, accepted retention offers, the save rate, a chart of reasons, recent cancellations (with signup date and the customer's comments) and accepted offers. Click <strong>Export CSV</strong> to download it.</p>
+	<figure><a href="screenshots/cancellations.png" target="_blank"><img src="screenshots/cancellations.png" alt="Cancellations report" loading="lazy"></a><figcaption>Cancellations report</figcaption></figure>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="emails">
+	<h2>Emails &amp; reminders</h2>
+	<p class="lead">Keep customers informed automatically.</p>
+	<ul>
+		<li>Every subscription email can be edited, previewed or turned off in <em>WooCommerce → Settings → Emails</em>: Subscription Created, Activated, Renewed, Trial Started / Ending, Renewal Invoice, Payment Failed, Retry Scheduled, On Hold, Cancelled, Expired, Reactivated, Upcoming Renewal Reminder, Payment Method Updated, and admin copies of the important ones.</li>
+		<li><span class="badge pro">Pro</span> adds <strong>Card Expiring Reminder</strong> and <strong>Subscription Price Changed</strong>.</li>
+		<li>Reminder timing is set in <em>Subscriptions → Settings → Notifications</em>: trial ending, auto-renewal, manual payment due, retry, and card expiry (Pro). Add the addresses that receive admin emails in <strong>Admin Recipient Email(s)</strong>.</li>
+	</ul>
+	<figure><a href="screenshots/settings-notifications.png" target="_blank"><img src="screenshots/settings-notifications.png" alt="Notification and reminder settings" loading="lazy"></a><figcaption>Settings → Notifications</figcaption></figure>
+	<figure class="tall"><a href="screenshots/emails.png" target="_blank"><img src="screenshots/emails.png" alt="WooCommerce email list including subscription emails" loading="lazy"></a><figcaption>Subscription emails in WooCommerce → Settings → Emails</figcaption></figure>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="reports">
+	<h2>Reports &amp; CSV exports <span class="badge pro">Pro</span></h2>
+	<p class="lead">The <strong>Exports</strong> tab: choose a period and download a CSV that opens in Excel, Google Sheets or Numbers.</p>
+	<table>
+		<thead><tr><th>Export</th><th>Contents</th></tr></thead>
+		<tbody>
+			<tr><td>Payments</td><td>Every subscription payment: initial orders, renewals, early renewals and plan switches, with subtotal, discount, fees, shipping, tax, total, refunds, payment method and transaction ID.</td></tr>
+			<tr><td>Monthly summary</td><td>One row per month: new subscriptions, cancellations, number of initial, renewal and switch payments, revenue, tax, refunds and net revenue.</td></tr>
+			<tr><td>Cancellations</td><td>Cancelled subscriptions with customer, product, signup and cancellation dates, and the survey answer.</td></tr>
+		</tbody>
+	</table>
+	<div class="usecase"><strong>Use case</strong>At month end, your accountant needs every subscription payment with tax and refunds. Download the Payments CSV for "Last month" and send it over. No copying from order screens.</div>
+	<figure><a href="screenshots/exports.png" target="_blank"><img src="screenshots/exports.png" alt="Report exports page" loading="lazy"></a><figcaption>Exports tab</figcaption></figure>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="integrations">
+	<h2>Mailchimp &amp; Klaviyo <span class="badge pro">Pro</span></h2>
+	<p class="lead">Keep your email marketing tool up to date with each customer's subscription status, automatically.</p>
+	<ol class="steps">
+		<li>Go to <em>Subscriptions → Settings → Integrations</em>.</li>
+		<li><strong>Mailchimp:</strong> turn on <em>Sync to Mailchimp</em>, paste your API key (Mailchimp → Profile → Extras → API keys) and Audience ID (Audience → Settings → Audience name and defaults).<br><strong>Klaviyo:</strong> turn on <em>Sync to Klaviyo</em>, paste a private API key with Profiles and Lists write access and, optionally, a List ID.</li>
+		<li>Click <strong>Test connection</strong>, then <strong>Save Changes</strong>.</li>
+		<li>Click <strong>Sync All Customers Now</strong> once to sync existing subscribers. After that, customers are synced in the background whenever a subscription changes status.</li>
+	</ol>
+	<ul>
+		<li><strong>Mailchimp</strong> contacts get tags such as <code>Subscription: Active</code>, <code>Subscription: Cancelled</code> and, optionally, <code>Subscribed: Product name</code>. Old status tags are removed when they no longer apply.</li>
+		<li><strong>Klaviyo</strong> profiles get the properties <em>Subscription Status</em>, <em>Subscription Statuses</em>, <em>Active Subscriptions</em>, <em>Subscription Products</em> and <em>Next Subscription Payment</em>.</li>
+		<li>The <strong>Recent Syncs</strong> table shows each sync and any error.</li>
+	</ul>
+	<div class="note"><strong>Consent:</strong> "Add New Contacts As" defaults to <em>Transactional</em>, so contacts can be tagged but don't receive campaigns. Choose <em>Subscribed</em> only if customers agreed to marketing emails.</div>
+	<div class="usecase"><strong>Use case</strong>Build a Mailchimp segment "tag is Subscription: Cancelled" and send a win-back campaign 30 days later. Or use the Klaviyo property "Next Subscription Payment" to send a "your box ships soon" flow.</div>
+	<figure class="tall"><a href="screenshots/settings-integrations.png" target="_blank"><img src="screenshots/settings-integrations.png" alt="Integrations settings for Mailchimp and Klaviyo" loading="lazy"></a><figcaption>Settings → Integrations</figcaption></figure>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="import-export">
+	<h2>Import, export &amp; webhooks <span class="badge free">Free + Pro</span></h2>
+	<ul>
+		<li><strong>Import / Export</strong> (button on the Subscriptions dashboard): back up and restore subscriptions, or migrate from <strong>WooCommerce Subscriptions</strong>, <strong>YITH</strong>, <strong>SUMO</strong> or a CSV file.</li>
+		<li><strong>Webhooks</strong>: send subscription events (created, status changed, renewed, cancelled, renewal payment failed) to your own URLs. Each request is signed with an <code>X-ACO-Webhook-Signature</code> HMAC SHA-256 header using your secret key.</li>
+	</ul>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="help-tab">
+	<h2>Help tab <span class="badge pro">Pro</span></h2>
+	<p class="lead">Help inside the plugin: <em>Subscriptions → Help</em>.</p>
+	<p>An overview with a demo video, quick links, the full documentation, FAQs, video tutorials and a button to create a support ticket.</p>
+	<figure class="tall"><a href="screenshots/help.png" target="_blank"><img src="screenshots/help.png" alt="Help tab" loading="lazy"></a><figcaption>Help tab</figcaption></figure>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="faq">
+	<h2>Frequently asked questions</h2>
+	<details><summary>Does this plugin require WooCommerce?</summary><div>Yes. WooCommerce 9.0 or higher must be installed and active.</div></details>
+	<details><summary>Which payment gateways are supported?</summary><div>Automatic recurring payments work with the WooCommerce Stripe Gateway and WooCommerce PayPal Payments. Bank transfer and cheque work with manual renewals, where the customer pays each renewal from an invoice email.</div></details>
+	<details><summary>How do automatic renewals work?</summary><div>At checkout the customer's card or PayPal account is saved. On each renewal date the plugin creates a renewal order and charges the saved payment method in the background. The customer doesn't need to visit the store.</div></details>
+	<details><summary>What happens when a renewal payment fails?</summary><div>The subscription goes on hold and the payment is retried on the schedule set in Settings → Payment. The customer receives an email with a link to pay manually or with another card. When all retries fail, the failure action (on hold or cancelled) is applied. With Smart Retries (Pro), declines that can't succeed, such as stolen or expired cards, are not retried.</div></details>
+	<details><summary>Can customers change their plan?</summary><div>Yes, in Pro, for variable subscription products when "Allow Plan Switching" is on. Upgrades pay the prorated difference now; downgrades start at the next payment.</div></details>
+	<details><summary>How do I give a discount only for the first few months?</summary><div>Pro: create a coupon with the type "Recurring subscription % discount" (or fixed) and set "Active for payments", e.g. 3 for three discounted monthly payments.</div></details>
+	<details><summary>Can I raise the price for my existing subscribers?</summary><div>Pro: change and save the product price, then use the "Existing Subscribers: Price" box on the product edit screen. Apply it from the next renewal or from a date, and email customers about it.</div></details>
+	<details><summary>How do I stop customers from taking the free trial twice?</summary><div>Pro: set "Free Trial Limit" in Settings → General to one trial per product or per store.</div></details>
+	<details><summary>Can I upgrade from the free plugin without losing data?</summary><div>Pro uses the same subscription tables and settings as the free plugin. Take a backup, deactivate the free plugin, then activate Pro. Your existing subscriptions and settings are then shown in Pro.</div></details>
+	<details><summary>Does the plugin send data to external services?</summary><div>Only to services you enable: Stripe and PayPal to process payments, Mailchimp or Klaviyo when you connect them, and webhook URLs you add yourself.</div></details>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="troubleshooting">
+	<h2>Troubleshooting</h2>
+	<table>
+		<thead><tr><th>Problem</th><th>What to check</th></tr></thead>
+		<tbody>
+			<tr><td>A renewal did not happen on time</td><td>Renewals need WP-Cron or site traffic. Check <em>Tools → Scheduled Actions</em> for pending or failed actions starting with <code>acosuanr_</code>. On low-traffic sites, set up a real server cron job.</td></tr>
+			<tr><td>"Switch Plan" button is missing</td><td>Turn on <em>Allow Plan Switching</em>. Switching only works for variable subscription products with at least one other variation.</td></tr>
+			<tr><td>Recurring coupon only discounted the first order</td><td>The coupon type must be <em>Recurring subscription % / fixed discount</em>, not a normal WooCommerce type. Check "Active for payments".</td></tr>
+			<tr><td>Card expiry emails are not sent</td><td>Card reminders need a saved Stripe <em>card</em> with an expiry date. Wallets such as Stripe Link have no expiry. Check the Card Expiry Reminder days in Notifications.</td></tr>
+			<tr><td>Mailchimp contacts are not tagged</td><td>Click <em>Test connection</em> and check the Recent Syncs table for errors. Syncs run in the background, so allow a minute after a status change.</td></tr>
+			<tr><td>Manual payment option not shown at checkout</td><td>Turn on <em>Accept Manual Payment</em> in Settings → Payment and enable the gateway in WooCommerce. Cash on delivery is always hidden for subscriptions.</td></tr>
+		</tbody>
+	</table>
+</section>
+
+<footer>Aco Subscription and Recurring Payments Pro for WooCommerce · Documentation for v1.0.0 · by Acowebs</footer>
+</main>
+</div>
+<button class="theme-toggle" type="button" id="themeToggle">Dark / Light</button>
+<script>
+(function () {
+	var root = document.documentElement;
+	try { var saved = localStorage.getItem('acosuanr-doc-theme'); if (saved) root.setAttribute('data-theme', saved); } catch (e) {}
+	document.getElementById('themeToggle').addEventListener('click', function () {
+		var dark = root.getAttribute('data-theme') === 'dark' || (!root.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+		var next = dark ? 'light' : 'dark';
+		root.setAttribute('data-theme', next);
+		try { localStorage.setItem('acosuanr-doc-theme', next); } catch (e) {}
+	});
+})();
+</script>
+</body>
+</html>
