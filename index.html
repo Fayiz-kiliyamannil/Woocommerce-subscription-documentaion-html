@@ -42,6 +42,10 @@ html { scroll-behavior: smooth; scroll-padding-top: 16px; }
 body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
 a { color: var(--brand); }
 code, kbd { background: var(--code); border-radius: 4px; padding: 1px 6px; font-size: .9em; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+pre { background: var(--code); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font-size: 13px; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+.table-wrap { margin: 10px 0 18px; }
+.table-wrap table { margin: 0; }
 .layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); max-width: 1320px; margin: 0 auto; }
 nav.toc { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 28px 18px 40px 24px; border-right: 1px solid var(--line); font-size: 14px; }
 nav.toc .brand { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
@@ -141,7 +145,12 @@ footer { color: var(--muted); font-size: 13px; text-align: center; margin-top: 3
 		<li><a href="#emails">Emails &amp; reminders</a></li>
 		<li><a href="#reports">Reports &amp; exports</a></li>
 		<li><a href="#integrations">Mailchimp &amp; Klaviyo</a></li>
-		<li><a href="#import-export">Import, export &amp; webhooks</a></li>
+		<li><a href="#import-export">Import &amp; export</a></li>
+		<li><a href="#export">Export wizard</a></li>
+		<li><a href="#import">Import wizard</a></li>
+		<li><a href="#import-guides">Import &amp; export guides</a></li>
+		<li><a href="#import-errors">Import messages &amp; fixes</a></li>
+		<li><a href="#webhooks">Webhooks</a></li>
 		<li class="group">Support</li>
 		<li><a href="#help-tab">Help tab</a></li>
 		<li><a href="#faq">FAQ</a></li>
@@ -481,11 +490,287 @@ footer { color: var(--muted); font-size: 13px; text-align: center; margin-top: 3
 
 <!-- ============================================================ -->
 <section class="doc" id="import-export">
-	<h2>Import, export &amp; webhooks <span class="badge free">Free + Pro</span></h2>
+	<h2>Import &amp; export <span class="badge free">Free + Pro</span></h2>
+	<p class="lead">Back up your subscriptions, restore them, move them to a new store, or bring them in from another subscription plugin or a spreadsheet.</p>
+	<p>Open <em>Subscriptions</em> and click <strong>Import / Export</strong> above the subscription list. The page has two tools: the <strong>Import Wizard</strong> and the <strong>Export Wizard</strong>.</p>
+	<figure><a href="screenshots/import-export-entry.png" target="_blank"><img src="screenshots/import-export-entry.png" alt="Import / Export button on the Subscriptions dashboard" loading="lazy"></a><figcaption>The Import / Export button on the Subscriptions dashboard</figcaption></figure>
+
+	<h3>What you can do</h3>
+<div class="table-wrap"><table>
+		<thead><tr><th>Task</th><th>Tool</th><th>See</th></tr></thead>
+		<tbody>
+			<tr><td>Download all (or some) subscriptions as a file</td><td>Export Wizard</td><td><a href="#export">Export wizard</a></td></tr>
+			<tr><td>Create a backup automatically every day, week or month</td><td>Export Wizard → Schedule</td><td><a href="#export-schedule">Scheduled exports</a></td></tr>
+			<tr><td>Restore subscriptions from a backup</td><td>Import Wizard</td><td><a href="#guide-restore">Back up &amp; restore</a></td></tr>
+			<tr><td>Move subscriptions to a new store</td><td>Export, then Import</td><td><a href="#guide-move">Move to a new store</a></td></tr>
+			<tr><td>Switch from WooCommerce Subscriptions, YITH or SUMO</td><td>Import Wizard</td><td><a href="#guide-migrate">Migrate from another plugin</a></td></tr>
+			<tr><td>Create many subscriptions from a spreadsheet</td><td>Import Wizard</td><td><a href="#guide-spreadsheet">Import from a spreadsheet</a></td></tr>
+		</tbody>
+	</table></div>
+
+	<h3>Supported file formats</h3>
+<div class="table-wrap"><table>
+		<thead><tr><th>Format</th><th>Export</th><th>Import</th><th>Notes</th></tr></thead>
+		<tbody>
+			<tr><td>CSV (<code>.csv</code>)</td><td>Yes</td><td>Yes</td><td>Opens in Excel, Google Sheets and Numbers. The best choice for most stores.</td></tr>
+			<tr><td>JSON (<code>.json</code>)</td><td>Yes</td><td>Yes</td><td>For developers and other systems.</td></tr>
+			<tr><td>XML (<code>.xml</code>)</td><td>Yes</td><td>Yes</td><td>For developers and other systems.</td></tr>
+			<tr><td>Excel XML Spreadsheet (<code>.xls</code>)</td><td>Yes</td><td>Yes</td><td>Opens directly in Excel.</td></tr>
+			<tr><td>ZIP (<code>.zip</code>)</td><td>Yes</td><td>Yes</td><td>A compressed file. On import, the first CSV, JSON, XML or XLS file inside is used. Needs the PHP ZipArchive extension.</td></tr>
+			<tr><td>Excel workbook (<code>.xlsx</code>)</td><td>No</td><td>No</td><td>In Excel, use <em>File → Save As → CSV</em> first, then import the CSV.</td></tr>
+		</tbody>
+	</table></div>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="export">
+	<h2>Export wizard <span class="badge free">Free + Pro</span></h2>
+	<p class="lead">Download your subscriptions as a file, now or on a schedule.</p>
+	<ol class="steps">
+		<li>Go to <em>Subscriptions → Import / Export</em> and click <strong>Export Wizard</strong>.</li>
+		<li>Choose the <strong>Export File Format</strong>. Choose <em>CSV</em> if you're not sure.</li>
+		<li>Optional: pick a status in <strong>Filter by Status</strong> to export only, for example, active subscriptions.</li>
+		<li>Choose what else to include:
+			<ul>
+				<li><strong>Include subscription meta (custom fields)</strong>: extra data such as saved payment details references, retry information and cancellation reasons. Keep this on for a complete backup.</li>
+				<li><strong>Include subscription notes</strong>: the notes shown on each subscription (renewals, status changes, plan switches).</li>
+			</ul>
+		</li>
+		<li>Click <strong>Generate Export File</strong>. The file downloads straight away and you stay on the page.</li>
+	</ol>
+	<figure><a href="screenshots/export-wizard.png" target="_blank"><img src="screenshots/export-wizard.png" alt="Export wizard with format, status filter, options, schedule, recurring export and saved files" loading="lazy"></a><figcaption>Export wizard, with a weekly scheduled export and one saved file</figcaption></figure>
+
+	<h3>Columns in the export file</h3>
+<div class="table-wrap"><table>
+		<thead><tr><th>Column</th><th>Contains</th></tr></thead>
+		<tbody>
+			<tr><td><code>subscription_id</code>, <code>subscription_key</code></td><td>The subscription number and its unique key. The key is how a later import recognises a subscription that already exists.</td></tr>
+			<tr><td><code>customer_id</code>, <code>customer_email</code></td><td>The customer's user ID and email address.</td></tr>
+			<tr><td><code>status</code></td><td>For example <code>active</code>, <code>trial</code>, <code>on-hold</code>, <code>cancelled</code>.</td></tr>
+			<tr><td><code>billing_interval</code>, <code>billing_period</code></td><td>How often it renews, e.g. <code>1</code> + <code>month</code>, or <code>3</code> + <code>month</code> for quarterly.</td></tr>
+			<tr><td><code>total</code>, <code>currency</code></td><td>The recurring amount and currency.</td></tr>
+			<tr><td><code>payment_gateway</code></td><td>The payment method, e.g. <code>stripe</code>, <code>ppcp-gateway</code> or <code>manual</code>.</td></tr>
+			<tr><td><code>created_at</code>, <code>start_date</code>, <code>next_payment</code>, <code>end_date</code></td><td>Dates in UTC, format <code>YYYY-MM-DD HH:MM:SS</code>.</td></tr>
+			<tr><td><code>product_ids</code>, <code>product_names</code></td><td>The subscribed products. Several products are separated by commas.</td></tr>
+			<tr><td><code>subscription_meta</code></td><td>Only with "Include subscription meta". The custom fields, as JSON.</td></tr>
+			<tr><td><code>notes</code></td><td>Only with "Include subscription notes". Notes separated by <code> | </code>.</td></tr>
+		</tbody>
+	</table></div>
+
+	<h3 id="export-schedule">Scheduled (recurring) exports</h3>
+	<p>Let the plugin create a backup file for you automatically.</p>
+	<ol class="steps">
+		<li>Set the format, status filter and options as above.</li>
+		<li>Tick <strong>Create this export automatically on a schedule</strong> and choose <strong>Daily</strong>, <strong>Weekly</strong> or <strong>Monthly</strong>.</li>
+		<li>Click <strong>Register Scheduled Export</strong>. The first file is created within about a minute, then on every run after that.</li>
+	</ol>
 	<ul>
-		<li><strong>Import / Export</strong> (button on the Subscriptions dashboard): back up and restore subscriptions, or migrate from <strong>WooCommerce Subscriptions</strong>, <strong>YITH</strong>, <strong>SUMO</strong> or a CSV file.</li>
-		<li><strong>Webhooks</strong>: send subscription events (created, status changed, renewed, cancelled, renewal payment failed) to your own URLs. Each request is signed with an <code>X-ACO-Webhook-Signature</code> HMAC SHA-256 header using your secret key.</li>
+		<li><strong>Recurring export</strong> shows the current schedule and when the next file will be created. Click <strong>Stop</strong> to turn it off.</li>
+		<li><strong>Saved export files</strong> lists the files created by the schedule. Click <strong>Download</strong> to get one, or <strong>Refresh</strong> to update the list.</li>
+		<li>Only one schedule can run at a time. Registering a new one replaces the current one.</li>
+		<li>Saved files are kept for <strong>7 days</strong> and then deleted automatically. Download the ones you want to keep.</li>
+		<li>Files are stored in a protected folder (<code>wp-content/uploads/acosuanr-exports</code>) and can only be downloaded by logged-in shop managers and administrators.</li>
 	</ul>
+	<div class="usecase"><strong>Use case</strong>A store owner wants a weekly copy of all subscriptions for their accountant. They schedule a weekly CSV export with "All Statuses". Every Monday they open <em>Saved export files</em>, download the newest file and send it on.</div>
+	<div class="note"><strong>Tip:</strong> scheduled exports run through WooCommerce's Action Scheduler, like renewals. On low-traffic sites, set up a real server cron job so they run on time.</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="import">
+	<h2>Import wizard <span class="badge free">Free + Pro</span></h2>
+	<p class="lead">Six steps: upload, map columns, preview, choose what to do with duplicates, import, and read the summary.</p>
+	<div class="note"><strong>Before you import:</strong> take a backup of your site's database. The products and customers in the file must already exist on this store. The importer doesn't create WordPress users or WooCommerce products.</div>
+
+	<h3>Step 1: Upload the file</h3>
+	<ol class="steps">
+		<li>Go to <em>Subscriptions → Import / Export</em>. The <strong>Import Wizard</strong> opens by default.</li>
+		<li>Choose where the file comes from:
+			<ul>
+				<li><strong>Generic CSV / this plugin's export</strong>: a backup from this plugin, or your own spreadsheet.</li>
+				<li><strong>WooCommerce Subscriptions Official plugin</strong>, <strong>YITH WooCommerce Subscription</strong> or <strong>SUMO Subscriptions</strong>: an export file from that plugin. See <a href="#guide-migrate">Migrate from another plugin</a>.</li>
+			</ul>
+		</li>
+		<li>Click <strong>Choose file</strong> and select the file. The plugin uploads it and reads its column headers.</li>
+	</ol>
+	<figure><a href="screenshots/import-step1-upload.png" target="_blank"><img src="screenshots/import-step1-upload.png" alt="Import wizard step 1: choose the source and upload a file" loading="lazy"></a><figcaption>Step 1: choose the source and the file</figcaption></figure>
+	<p>If the file can't be used, a red message explains why, for example "File is empty" or "Binary Excel files (.xlsx) are not supported". Fix the file and choose it again.</p>
+
+	<h3>Step 2: Map the columns</h3>
+	<p>Tell the plugin which column in your file holds which piece of information. Columns with matching names are <strong>selected for you</strong>, so for a backup from this plugin you usually don't need to change anything.</p>
+	<figure class="tall"><a href="screenshots/import-step2-mapping.png" target="_blank"><img class="narrow" src="screenshots/import-step2-mapping.png" alt="Import wizard step 2: column mapping" loading="lazy"></a><figcaption>Step 2: each field with the file column it reads from</figcaption></figure>
+<div class="table-wrap"><table>
+		<thead><tr><th>Field</th><th>What to map</th><th>Accepted values</th></tr></thead>
+		<tbody>
+			<tr><td>Customer <strong>(required)</strong></td><td>The customer's email (best), user ID or username.</td><td>Must match an existing user on this store. When the file has a <code>customer_email</code> column, the email is used first, because user IDs differ between stores.</td></tr>
+			<tr><td>Product <strong>(required)</strong></td><td>The product ID, SKU or name.</td><td>Must match an existing product or variation. If an ID doesn't match, the <code>product_names</code> column is tried.</td></tr>
+			<tr><td>Status</td><td>The subscription status.</td><td><code>active</code>, <code>trial</code>, <code>pending</code>, <code>on-hold</code>, <code>paused</code>, <code>pending-renewal</code>, <code>pending-cancel</code>, <code>cancelled</code>, <code>expired</code>. Upper case, <code>wc-</code> prefixes and "Pending Cancellation" are understood. Empty = <code>active</code>.</td></tr>
+			<tr><td>Billing interval <strong>(required)</strong></td><td>How many periods between payments.</td><td>A whole number above 0, e.g. <code>1</code> or <code>3</code>.</td></tr>
+			<tr><td>Billing period</td><td>The unit of the interval.</td><td><code>day</code>, <code>week</code>, <code>month</code> or <code>year</code>. Empty = <code>month</code>.</td></tr>
+			<tr><td>Start date, Next payment date, End date</td><td>The subscription dates.</td><td>Use <code>YYYY-MM-DD</code> or <code>YYYY-MM-DD HH:MM:SS</code>. Day-first dates such as <code>31/12/2026</code> are rejected.</td></tr>
+			<tr><td>Payment method</td><td>The payment gateway ID.</td><td>e.g. <code>stripe</code>, <code>ppcp-gateway</code>. Empty or <code>manual</code> = manual renewal (the customer pays each renewal from an invoice email).</td></tr>
+			<tr><td>Currency</td><td>The currency code.</td><td>A WooCommerce currency such as <code>USD</code> or <code>EUR</code>. Empty = the store currency.</td></tr>
+			<tr><td>Recurring amount</td><td>The price charged on each renewal.</td><td>A number, e.g. <code>29.00</code>. Empty = the product's current price.</td></tr>
+		</tbody>
+	</table></div>
+	<p>Leave a field on <em>-- Do not map --</em> when your file doesn't have it. For WooCommerce Subscriptions, YITH and SUMO files, unmapped fields use that plugin's standard column names automatically.</p>
+	<p>Click <strong>Next: Validate and Preview</strong>.</p>
+
+	<h3>Step 3: Check the preview</h3>
+	<p>The first 5 rows are checked before anything is saved. The <strong>Result</strong> column shows what will happen to each row:</p>
+	<ul>
+		<li><strong>OK</strong> (green): the row will be imported.</li>
+		<li><strong>Already exists (#ID)</strong> (amber): a subscription with the same key is already on this store. What happens next depends on the duplicate option in step 4.</li>
+		<li><strong>A red message</strong>: the row has a problem and will be skipped. The message says what's wrong.</li>
+	</ul>
+	<figure><a href="screenshots/import-step3-preview.png" target="_blank"><img src="screenshots/import-step3-preview.png" alt="Import wizard step 3: validation preview with OK, existing and error rows" loading="lazy"></a><figcaption>Step 3: one new row, two existing subscriptions and two rows with problems</figcaption></figure>
+	<p>If many rows show problems, click <strong>Back to Mapping</strong> and check the mapping, or fix the file and start again. Otherwise click <strong>Next: Duplicate Configuration</strong>. Rows with problems are skipped and the rest are imported.</p>
+
+	<h3>Step 4: Choose what to do with duplicates</h3>
+	<p>A row is a duplicate when its <code>subscription_key</code> already exists on this store, or when the same customer already has an <em>active</em> or <em>on-hold</em> subscription to the same product.</p>
+	<figure><a href="screenshots/import-step4-duplicates.png" target="_blank"><img src="screenshots/import-step4-duplicates.png" alt="Import wizard step 4: duplicate handling options" loading="lazy"></a><figcaption>Step 4: duplicate handling</figcaption></figure>
+<div class="table-wrap"><table>
+		<thead><tr><th>Option</th><th>What happens to an existing subscription</th><th>Use it when</th></tr></thead>
+		<tbody>
+			<tr><td><strong>Skip it</strong> (default)</td><td>Nothing. It stays exactly as it is.</td><td>You only want to add subscriptions that are missing. The safest choice.</td></tr>
+			<tr><td><strong>Update it</strong></td><td>Every value in the file replaces the stored value (status, billing, dates, payment method, currency).</td><td>The file is newer and correct, e.g. you fixed dates in a spreadsheet.</td></tr>
+			<tr><td><strong>Merge</strong></td><td>Only empty values are filled in. Notes and meta from the file are added; notes that are already there aren't added twice.</td><td>Restoring missing details without changing what's there.</td></tr>
+			<tr><td><strong>Create a new subscription anyway</strong></td><td>Nothing. A second subscription is created with a new key.</td><td>Rarely. Only when the customer really should have two subscriptions.</td></tr>
+		</tbody>
+	</table></div>
+	<p>Click <strong>Start Background Import</strong>.</p>
+
+	<h3>Step 5: Import</h3>
+	<p>A progress bar shows how many rows have been processed. Rows are imported in batches of 100 in the background, so large files don't time out. You can leave the page; the import keeps running.</p>
+	<p>For each new <em>active</em> or <em>trial</em> subscription, the next renewal (and the expiry, if there is an end date) is scheduled automatically, so it renews like any other subscription.</p>
+
+	<h3>Step 6: Read the summary</h3>
+	<figure><a href="screenshots/import-step6-summary.png" target="_blank"><img src="screenshots/import-step6-summary.png" alt="Import wizard step 6: summary with counts and row errors" loading="lazy"></a><figcaption>Step 6: what was created, updated, skipped, and which rows failed and why</figcaption></figure>
+<div class="table-wrap"><table>
+		<thead><tr><th>Line</th><th>Meaning</th></tr></thead>
+		<tbody>
+			<tr><td>Created</td><td>New subscriptions added to the store.</td></tr>
+			<tr><td>Updated / merged</td><td>Existing subscriptions changed by the Update or Merge option.</td></tr>
+			<tr><td>Skipped (already exist)</td><td>Duplicates left unchanged by the Skip option.</td></tr>
+			<tr><td>Rows with errors</td><td>Rows that weren't imported. The table below lists each row number (counting from the first row after the header) and the reason.</td></tr>
+		</tbody>
+	</table></div>
+	<p>To import the failed rows, fix them in the file (you can delete the rows that were already imported), then click <strong>Start Another Import</strong> and upload the corrected file.</p>
+	<div class="note"><strong>Customers aren't emailed</strong> when subscriptions are imported. Imported subscriptions are marked as created by "migration".</div>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="import-guides">
+	<h2>Import &amp; export guides</h2>
+	<p class="lead">Step-by-step recipes for the most common jobs.</p>
+
+	<h3 id="guide-restore">Back up &amp; restore</h3>
+	<div class="usecase"><strong>Use case</strong>Before a big change to the store (a theme switch, a plugin update), the owner wants a copy of every subscription that they can restore if something goes wrong.</div>
+	<ol class="steps">
+		<li><strong>Back up:</strong> Export Wizard → format <em>CSV</em> → <em>All Statuses</em> → tick both <em>Include</em> options → <strong>Generate Export File</strong>. Keep the file somewhere safe. For automatic backups, use a <a href="#export-schedule">scheduled export</a>.</li>
+		<li><strong>Restore:</strong> Import Wizard → source <em>Generic CSV / this plugin's export</em> → choose the backup file.</li>
+		<li>Leave the mapping as selected and check the preview. Subscriptions that are still on the store show <em>Already exists</em>.</li>
+		<li>Choose <strong>Skip it</strong> to only bring back subscriptions that are missing, or <strong>Update it</strong> to also reset existing ones to the values in the backup.</li>
+		<li>Start the import and check the summary.</li>
+	</ol>
+
+	<h3 id="guide-move">Move subscriptions to a new store</h3>
+	<div class="usecase"><strong>Use case</strong>A store moves to a new domain and WordPress install, and its 400 subscribers must keep renewing on the new site.</div>
+	<ol class="steps">
+		<li>On the new store, install WooCommerce and this plugin, and create the <strong>same products</strong> (same SKUs or names) and <strong>customer accounts</strong> (same emails). Customers can be moved with a WordPress user import tool.</li>
+		<li>On the old store, export as CSV with <em>All Statuses</em> and both <em>Include</em> options ticked.</li>
+		<li>On the new store, import the file with source <em>Generic CSV / this plugin's export</em>. Customers are matched by email, so it doesn't matter that their user IDs are different.</li>
+		<li>Products are matched by ID first, then by name. If product IDs differ and names aren't unique, set the <strong>Product</strong> mapping to <code>product_names</code>, or add a SKU column to the file.</li>
+		<li>Check the preview, choose <strong>Skip it</strong>, and start the import.</li>
+		<li>Connect the same Stripe and PayPal accounts on the new store, so saved cards and PayPal agreements keep working for automatic renewals.</li>
+	</ol>
+
+	<h3 id="guide-migrate">Migrate from WooCommerce Subscriptions, YITH or SUMO</h3>
+	<div class="usecase"><strong>Use case</strong>A store has used WooCommerce Subscriptions for two years and switches to this plugin without asking customers to sign up again.</div>
+	<ol class="steps">
+		<li>Export the subscriptions from the old plugin as a CSV file (with that plugin's own export tool or an add-on).</li>
+		<li>In the Import Wizard, choose the matching source: <em>WooCommerce Subscriptions Official plugin</em>, <em>YITH WooCommerce Subscription</em> or <em>SUMO Subscriptions</em>.</li>
+		<li>Upload the file. Fields left on <em>-- Do not map --</em> read the plugin's standard column names (see the table below). If your file uses different names, pick the columns yourself.</li>
+		<li>Check the preview, choose <strong>Skip it</strong>, and start the import.</li>
+		<li>When the summary looks right, deactivate the old plugin so customers aren't billed twice.</li>
+	</ol>
+<div class="table-wrap"><table>
+		<thead><tr><th>Field</th><th>WooCommerce Subscriptions</th><th>YITH</th><th>SUMO</th></tr></thead>
+		<tbody>
+			<tr><td>Customer</td><td>Customer ID</td><td>Customer</td><td>Buyer ID</td></tr>
+			<tr><td>Product</td><td>Product ID</td><td>Product ID</td><td>Product ID</td></tr>
+			<tr><td>Status</td><td>Subscription Status</td><td>Status</td><td>Sub Status</td></tr>
+			<tr><td>Billing interval</td><td>Billing Interval</td><td>Interval</td><td>Interval</td></tr>
+			<tr><td>Billing period</td><td>Billing Period</td><td>Billing Period</td><td>Cycle</td></tr>
+			<tr><td>Start date</td><td>Start Date</td><td>Start Date</td><td>Start Date</td></tr>
+			<tr><td>Next payment date</td><td>Next Payment Date</td><td>Next Payment</td><td>Next Payment</td></tr>
+			<tr><td>End date</td><td>End Date</td><td>Expiry Date</td><td>End Date</td></tr>
+			<tr><td>Trial end date</td><td>Trial End Date</td><td>Trial End</td><td>Trial End</td></tr>
+			<tr><td>Payment method</td><td>Payment Method</td><td>Gateway</td><td>Gateway</td></tr>
+			<tr><td>Currency</td><td>Order Currency</td><td>Currency</td><td>Currency</td></tr>
+			<tr><td>Recurring amount</td><td>Order Total</td><td>Price</td><td>Total</td></tr>
+		</tbody>
+	</table></div>
+	<div class="note"><strong>Automatic payments after a migration:</strong> renewals can only be charged automatically when the same Stripe or PayPal account is connected, and the saved payment details (for example the Stripe customer and card IDs) are included as meta. Otherwise, set the payment method to <code>manual</code>: customers then receive an invoice email for each renewal and pay it themselves.</div>
+
+	<h3 id="guide-spreadsheet">Import from a spreadsheet</h3>
+	<div class="usecase"><strong>Use case</strong>A gym has a list of 120 members in Excel, each paying $40 a month by bank transfer, and wants them as subscriptions so renewal invoices go out automatically.</div>
+	<ol class="steps">
+		<li>Make sure every member has a customer account on the store and the membership product exists.</li>
+		<li>Put one subscription per row with these headers: <code>customer_email</code>, <code>product_ids</code> (or <code>sku</code>), <code>status</code>, <code>billing_interval</code>, <code>billing_period</code>, <code>next_payment</code>, <code>payment_gateway</code>, <code>currency</code>, <code>total</code>. You can start from the <a href="samples/subscriptions-sample.csv" download>sample CSV file</a>.</li>
+		<li>Write dates as <code>YYYY-MM-DD</code> and use <code>manual</code> as the payment method.</li>
+		<li>Save as <strong>CSV</strong> (<em>File → Save As → CSV UTF-8</em> in Excel).</li>
+		<li>Import with source <em>Generic CSV / this plugin's export</em>, check the preview and start the import.</li>
+	</ol>
+	<p>Sample file contents:</p>
+<pre><code>customer_email,product_ids,status,billing_interval,billing_period,next_payment,payment_gateway,currency,total
+anna@example.com,GYM-MONTHLY,active,1,month,2026-12-01,manual,USD,40.00
+mark@example.com,GYM-MONTHLY,active,1,month,2026-12-05,manual,USD,40.00
+sarah@example.com,GYM-QUARTERLY,active,3,month,2027-01-15,manual,USD,110.00</code></pre>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="import-errors">
+	<h2>Import messages &amp; fixes</h2>
+	<p class="lead">What the messages in the preview and summary mean, and how to fix them.</p>
+<div class="table-wrap"><table>
+		<thead><tr><th>Message</th><th>Why</th><th>How to fix it</th></tr></thead>
+		<tbody>
+			<tr><td>Customer "…" was not found on this store</td><td>No user has that email, ID or username.</td><td>Create the customer account first, or map the <em>Customer</em> field to the email column. Rows are never given to another account.</td></tr>
+			<tr><td>No customer given</td><td>The Customer field isn't mapped, or the cell is empty.</td><td>Map the Customer field in step 2 and fill the column.</td></tr>
+			<tr><td>Product "…" was not found on this store</td><td>No product or variation matches that ID, SKU or name.</td><td>Create the product, or map the Product field to a SKU or name column. Rows are never attached to another product.</td></tr>
+			<tr><td>Invalid date format for …</td><td>The date can't be read, for example <code>31/12/2026</code>.</td><td>Use <code>YYYY-MM-DD</code>, e.g. <code>2026-12-31</code>.</td></tr>
+			<tr><td>Invalid billing interval</td><td>The interval is empty, 0 or not a number.</td><td>Use a whole number such as <code>1</code>.</td></tr>
+			<tr><td>Invalid billing period</td><td>The period isn't one of the allowed values.</td><td>Use <code>day</code>, <code>week</code>, <code>month</code> or <code>year</code>.</td></tr>
+			<tr><td>Invalid subscription status</td><td>The status isn't recognised.</td><td>Use one of the statuses listed in <a href="#import">step 2</a>.</td></tr>
+			<tr><td>Unsupported currency</td><td>The currency code isn't a WooCommerce currency.</td><td>Use a 3-letter code such as <code>USD</code>.</td></tr>
+			<tr><td>Binary Excel files (.xlsx or binary .xls) are not supported</td><td>The file is an Excel workbook.</td><td>Save it as CSV and import the CSV.</td></tr>
+			<tr><td>No columns were found in this file</td><td>The file has no header row, or isn't a supported format.</td><td>Make sure the first row contains the column names.</td></tr>
+			<tr><td>The PHP ZipArchive extension is required</td><td>The server can't open ZIP files.</td><td>Upload the CSV file without zipping it, or ask your host to enable ZipArchive.</td></tr>
+			<tr><td>Summary shows only "Skipped"</td><td>Every row already exists and the duplicate option was <em>Skip it</em>.</td><td>Nothing is wrong. Use <em>Update it</em> or <em>Merge</em> if you wanted to change them.</td></tr>
+			<tr><td>The import stays at 0%</td><td>Background tasks (Action Scheduler) aren't running.</td><td>Check <em>Tools → Scheduled Actions</em> for failed or pending <code>acosuanr_run_import_batch</code> actions, and set up a real cron job.</td></tr>
+		</tbody>
+	</table></div>
+
+	<h3>For developers</h3>
+<div class="table-wrap"><table>
+		<thead><tr><th>Hook</th><th>Type</th><th>Use</th></tr></thead>
+		<tbody>
+			<tr><td><code>acosuanr_import_batch_size</code></td><td>filter</td><td>Rows per import batch (default 100).</td></tr>
+			<tr><td><code>acosuanr_import_mapping</code></td><td>filter</td><td>Change a normalized row before it's validated and saved. Receives the normalized row and the raw file row.</td></tr>
+			<tr><td><code>acosuanr_import_validation</code></td><td>filter</td><td>Add or remove validation errors for a row.</td></tr>
+			<tr><td><code>acosuanr_import_started</code>, <code>acosuanr_import_completed</code></td><td>action</td><td>Run code when an import starts or ends. Receives the import ID.</td></tr>
+			<tr><td><code>acosuanr_export_fields</code></td><td>filter</td><td>Change the columns of an export.</td></tr>
+			<tr><td><code>acosuanr_export_filename</code></td><td>filter</td><td>Change the file name of a scheduled export.</td></tr>
+			<tr><td><code>acosuanr_export_started</code>, <code>acosuanr_export_completed</code></td><td>action</td><td>Run code when a scheduled export starts or finishes, e.g. to upload the file elsewhere.</td></tr>
+			<tr><td><code>acosuanr_export_retention_seconds</code>, <code>acosuanr_import_retention_seconds</code></td><td>filter</td><td>How long saved export files (default 7 days) and uploaded import files (default 1 day) are kept.</td></tr>
+		</tbody>
+	</table></div>
+</section>
+
+<!-- ============================================================ -->
+<section class="doc" id="webhooks">
+	<h2>Webhooks <span class="badge free">Free + Pro</span></h2>
+	<p>Send subscription events (created, status changed, renewed, cancelled, renewal payment failed) to your own URLs. Each request is signed with an <code>X-ACO-Webhook-Signature</code> HMAC SHA-256 header using your secret key.</p>
 </section>
 
 <!-- ============================================================ -->

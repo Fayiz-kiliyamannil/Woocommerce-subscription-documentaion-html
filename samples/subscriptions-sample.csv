@@ -1,0 +1,4 @@
+customer_email,product_ids,status,billing_interval,billing_period,next_payment,payment_gateway,currency,total
+anna@example.com,GYM-MONTHLY,active,1,month,2026-12-01,manual,USD,40.00
+mark@example.com,GYM-MONTHLY,active,1,month,2026-12-05,manual,USD,40.00
+sarah@example.com,GYM-QUARTERLY,active,3,month,2027-01-15,manual,USD,110.00
